@@ -1,4 +1,4 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 
 var User = mongoose.model('User', {
   name: {
@@ -15,4 +15,4 @@ var User = mongoose.model('User', {
   }
 });
 
-module.export = {User};
+module.exports = {User};
