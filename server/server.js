@@ -26,7 +26,6 @@ app.post('/todos', (req, res) => {
 });
 
 // GET request
-
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos});
