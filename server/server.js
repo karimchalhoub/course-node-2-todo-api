@@ -15,8 +15,9 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
+//POST Request
 app.post('/todos', (req, res) => {
-  //console.log(req.body);
+
   var todo = new Todo({
     text: req.body.text
   });
@@ -30,6 +31,7 @@ app.post('/todos', (req, res) => {
 
 // GET request
 app.get('/todos', (req, res) => {
+
   Todo.find().then((todos) => {
     res.send({todos});
   }, (e) => {
@@ -37,7 +39,7 @@ app.get('/todos', (req, res) => {
   });
 });
 
-//GET /todos /12345
+//GET /todos/:id
 app.get('/todos/:id', (req, res) => {
   var id = req.params.id;
 
@@ -69,6 +71,7 @@ app.delete('/todos/:id', (req, res) => {
   }).catch((e) => res.status(400).send());
 });
 
+//PATCH route or UPDATE
 app.patch('/todos/:id', (req, res) => {
   var id = req.params.id;
   var body = _.pick(req.body, ['text', 'completed']);
@@ -91,6 +94,20 @@ app.patch('/todos/:id', (req, res) => {
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
+  })
+});
+
+//POST User route
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['name', 'email', 'password']);
+  var user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  }).then((token) => {
+    res.header('x-auth', token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
   })
 });
 
