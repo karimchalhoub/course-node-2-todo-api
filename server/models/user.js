@@ -57,6 +57,17 @@ var UserSchema = new mongoose.Schema({
       return token;
     });
   };
+
+  UserSchema.methods.removeToken = function (token) {
+    var user = this;
+
+    return user.update({
+      $pull: {
+        tokens: {token}
+      }
+    });
+  };
+
 //Statics is for model methods, instead of instance methods
   UserSchema.statics.findByToken = function (token) {
     var User = this;
